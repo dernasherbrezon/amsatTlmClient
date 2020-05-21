@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.r2cloud</groupId>
 	<artifactId>amsatTlmClient</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<url>https://github.com/dernasherbrezon/amsatTlmClient</url>
 	<name>amsatTlmClient</name>
 	<description>Java client for sending telemetry data to AMSAT</description>
