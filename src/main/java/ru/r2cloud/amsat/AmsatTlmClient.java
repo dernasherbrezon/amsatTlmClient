@@ -58,11 +58,11 @@ public class AmsatTlmClient {
 	}
 
 	private static byte[] convert(Frame frame) {
-		frame.setFrame(normalizeFrame(frame.getFrame()));
+		frame.setData(normalizeData(frame.getData()));
 		StringBuilder header = new StringBuilder();
 		header.append("Sequence: ").append(frame.getSequence()).append("\r\n");
 		header.append("Source: ").append(getSource(frame)).append("\r\n");
-		header.append("Length: ").append(frame.getFrame().length * 8).append("\r\n");
+		header.append("Length: ").append(frame.getData().length * 8).append("\r\n");
 		header.append("Date: ").append(formatDate(frame.getTime())).append("\r\n");
 		header.append("Receiver: ").append(formatCallsign(frame.getCallsign())).append("\r\n");
 		header.append("Rx-Location: ").append(formatLatitude(frame.getLatitude())).append(" ").append(formatLongitude(frame.getLongitude())).append(" 0\r\n");
@@ -71,14 +71,14 @@ public class AmsatTlmClient {
 
 		byte[] headerBytes = header.toString().getBytes(StandardCharsets.ISO_8859_1);
 
-		byte[] result = new byte[headerBytes.length + frame.getFrame().length];
+		byte[] result = new byte[headerBytes.length + frame.getData().length];
 		System.arraycopy(headerBytes, 0, result, 0, headerBytes.length);
-		System.arraycopy(frame.getFrame(), 0, result, headerBytes.length, frame.getFrame().length);
+		System.arraycopy(frame.getData(), 0, result, headerBytes.length, frame.getData().length);
 		return result;
 	}
 
 	// append zeroed reed solomon parity bytes
-	private static byte[] normalizeFrame(byte[] data) {
+	private static byte[] normalizeData(byte[] data) {
 		if (data.length == 96 || data.length == 5272 || data.length == 572) {
 			return data;
 		}
@@ -131,7 +131,7 @@ public class AmsatTlmClient {
 
 	private static String getSource(Frame frame) {
 		String suffix;
-		int frameLength = frame.getFrame().length;
+		int frameLength = frame.getData().length;
 		if (frameLength == 96) {
 			suffix = ".duv";
 		} else if (frameLength == 5272) {

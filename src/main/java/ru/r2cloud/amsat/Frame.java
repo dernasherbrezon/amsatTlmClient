@@ -10,7 +10,7 @@ public class Frame {
 	private String callsign;
 	private double longitude;
 	private double latitude;
-	private byte[] frame;
+	private byte[] data;
 
 	public long getSequence() {
 		return sequence;
@@ -60,12 +60,12 @@ public class Frame {
 		this.latitude = latitude;
 	}
 
-	public byte[] getFrame() {
-		return frame;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
-
-	public void setFrame(byte[] frame) {
-		this.frame = frame;
+	
+	public byte[] getData() {
+		return data;
 	}
 
 }

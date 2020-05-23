@@ -28,7 +28,7 @@ AmsatTlmClient client = new AmsatTlmClient(servers, 10000);
 ```java
 Frame frame = new Frame();
 frame.setCallsign("callsign");
-frame.setFrame(new byte[]{ ... });
+frame.setData(new byte[]{ ... });
 frame.setLatitude(0.0);
 frame.setLongitude(0.0);
 frame.setSatellite(Satellite.FOX1A);

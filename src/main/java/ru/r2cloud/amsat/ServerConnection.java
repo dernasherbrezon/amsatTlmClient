@@ -32,7 +32,7 @@ class ServerConnection {
 		socket.getOutputStream().flush();
 		byte[] b = new byte[4];
 		try {
-			readFullly(b);
+			readFully(b);
 		} finally {
 			// amsat supports only auto close connections
 			stop();
@@ -40,7 +40,7 @@ class ServerConnection {
 		return b;
 	}
 
-	private void readFullly(byte[] b) throws IOException, EOFException {
+	private void readFully(byte[] b) throws IOException {
 		int len = b.length;
 		int n = 0;
 		while (n < len) {

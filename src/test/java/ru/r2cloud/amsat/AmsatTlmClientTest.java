@@ -39,7 +39,7 @@ public class AmsatTlmClientTest {
 		SimpleRequestHandler handler = new SimpleRequestHandler(OK, 287);
 		server.setHandler(handler);
 		Frame frame = createValidRequest();
-		frame.setFrame(new byte[] { (byte) 0xca, (byte) 0xfe });
+		frame.setData(new byte[] { (byte) 0xca, (byte) 0xfe });
 		client.send(frame);
 	}
 
@@ -66,7 +66,7 @@ public class AmsatTlmClientTest {
 	private static Frame createValidRequest() {
 		Frame frame = new Frame();
 		frame.setCallsign("M7RED");
-		frame.setFrame(new byte[] { -109, 3, 96, 111, -88, 16, 0, 0, 0, -61, 11, 0, 0, 0, 0, 0, 0, 0, -48, -52, -77, 117, 107, -71, 20, 108, -62, 101, 39, 119, 126, 87, 121, 59, 23, 95, 68, 7, 1, 0, 0, 0, -66, 85, 29, -96, -94, -123, -10, -105, -96, 95, -48, 41, 8, 1, 0, 0, 18, 56, 64, 54, 0, 32 });
+		frame.setData(new byte[] { -109, 3, 96, 111, -88, 16, 0, 0, 0, -61, 11, 0, 0, 0, 0, 0, 0, 0, -48, -52, -77, 117, 107, -71, 20, 108, -62, 101, 39, 119, 126, 87, 121, 59, 23, 95, 68, 7, 1, 0, 0, 0, -66, 85, 29, -96, -94, -123, -10, -105, -96, 95, -48, 41, 8, 1, 0, 0, 18, 56, 64, 54, 0, 32 });
 		frame.setLatitude(53.72);
 		frame.setLongitude(47.57);
 		frame.setSatellite(Satellite.FOX1CLIFF);
