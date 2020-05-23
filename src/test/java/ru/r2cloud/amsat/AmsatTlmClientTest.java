@@ -77,7 +77,7 @@ public class AmsatTlmClientTest {
 
 	@Before
 	public void start() throws IOException {
-		int port = 8089;
+		int port = 8000;
 		server = new TlmServerMock(port);
 		server.start();
 		List<InetSocketAddress> address = new ArrayList<>();
