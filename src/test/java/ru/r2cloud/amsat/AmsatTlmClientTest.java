@@ -77,10 +77,11 @@ public class AmsatTlmClientTest {
 
 	@Before
 	public void start() throws IOException {
-		server = new TlmServerMock(8080);
+		int port = 8089;
+		server = new TlmServerMock(port);
 		server.start();
 		List<InetSocketAddress> address = new ArrayList<>();
-		address.add(new InetSocketAddress("127.0.0.1", 8089));
+		address.add(new InetSocketAddress("127.0.0.1", port));
 		client = new AmsatTlmClient(address, 10000);
 	}
 
