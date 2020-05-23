@@ -1,0 +1,15 @@
+language: java
+bundler_args: --retry 1
+
+
+script:
+  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.scm.disabled=true -Dsonar.language=java
+
+cache:
+  directories:
+  - $HOME/.m2/repository
+  - $HOME/.sonar/cache
+
+before_cache:
+  - rm -rf $HOME/.m2/repository/ru/r2cloud/
+
