@@ -80,7 +80,7 @@ public class AmsatTlmClientTest {
 		server = new TlmServerMock(8080);
 		server.start();
 		List<InetSocketAddress> address = new ArrayList<>();
-		address.add(new InetSocketAddress("127.0.0.1", 8080));
+		address.add(new InetSocketAddress("127.0.0.1", 8089));
 		client = new AmsatTlmClient(address, 10000);
 	}
 

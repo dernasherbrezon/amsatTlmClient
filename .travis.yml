@@ -1,6 +1,11 @@
 language: java
 bundler_args: --retry 1
 
+addons:
+  sonarcloud:
+    organization: "dernasherbrezon-github"
+    token:
+      secure: "PHRus8ZNk5Xeu/eV/0/PvWaCTk6FqA7lw+3mD3SVIuMfRDuIHmWanA2BeyECNg4A8nWmK+zrjwb3E+MQZ/0iCATXqzi3jaqp+8csHGe2M9Mn89h0NeOTqmddJnTOfeNWbBMAlOCcfq4WbyOEzyzEWqD/WihsXvgYCEOsXGkZk9+6HKCHVipJJ8uEjROOBt3KfQI1UHh5C+OLggAQq3WPFEzGcolBPUClp7CYMe7z284jn+nRnQ8gaKVC6hSt4hh90toZZhIFVbG7qhAyCYzX3SK2W0cTHzt3uuQeP3B7Ro3SpvqqoCsF+mMx5tH0jH4ok6scYpW8rnjNZQY5HiYUHd+cz5rCPyOm26uUtR1gxgrAzOvKHCVKgMOWrFROc7JkcZgICgLzHItO+h/qorfj3NpYcF2D2kreugOnm4rNrgL10nJuSK8YtM8SBI7jDtxpUmNL5SgEI+0qLw51OMjs3xe2AB8PaOCJBETK8wSfLqd3MX6blnZOuQye/cDE/Lyo4eR+IXa95FHoeAPOxoH88ulm3dyiebTwNJuLLCjL2PJBbfY8II+j60UYGX4YD4WtYzfWPyNdmEaak3xJls/h7ZIkn/1iTBsIARLPlF+xnO3oCFGEWRP86guiSYT/IvSmakKiVJtDEAliwI9f5GqKC+ygBGjP5zbjjP0gsCTarN8="
 
 script:
   - mvn clean verify sonar:sonar -Pcoverage -Dsonar.scm.disabled=true -Dsonar.language=java
