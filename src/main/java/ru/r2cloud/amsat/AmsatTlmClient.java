@@ -1,6 +1,7 @@
 package ru.r2cloud.amsat;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -10,12 +11,23 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.TimeZone;
 
 public class AmsatTlmClient {
 
 	private static final byte[] OK = { 0x4F, 0x4D, 0x0D, 0x0A };
 	private static final byte[] FAIL = { 0x46, 0x41, 0x0D, 0x0A };
+
+	private static String DEMODULATOR;
+
+	static {
+		String version = readVersion();
+		if (version == null) {
+			version = "1.0";
+		}
+		DEMODULATOR = "amsatTlmClient/" + version + " (dernasherbrezon)";
+	}
 
 	private final List<ServerConnection> servers = new ArrayList<>();
 
@@ -66,7 +78,7 @@ public class AmsatTlmClient {
 		header.append("Date: ").append(formatDate(frame.getTime())).append("\r\n");
 		header.append("Receiver: ").append(formatCallsign(frame.getCallsign())).append("\r\n");
 		header.append("Rx-Location: ").append(formatLatitude(frame.getLatitude())).append(" ").append(formatLongitude(frame.getLongitude())).append(" 0\r\n");
-		header.append("Demodulator: ").append("amsatTlmClient/1.0 (dernasherbrezon)").append("\r\n");
+		header.append("Demodulator: ").append(DEMODULATOR).append("\r\n");
 		header.append("\r\n");
 
 		byte[] headerBytes = header.toString().getBytes(StandardCharsets.ISO_8859_1);
@@ -147,6 +159,20 @@ public class AmsatTlmClient {
 	public void stop() {
 		for (ServerConnection cur : servers) {
 			cur.stop();
+		}
+	}
+
+	private static String readVersion() {
+		try {
+			Properties p = new Properties();
+			InputStream is = AmsatTlmClient.class.getClassLoader().getResourceAsStream("/META-INF/maven/ru.r2cloud/amsatTlmClient/pom.properties");
+			if (is != null) {
+				p.load(is);
+				return p.getProperty("version", null);
+			}
+			return null;
+		} catch (Exception e) {
+			return null;
 		}
 	}
 
