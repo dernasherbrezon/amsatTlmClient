@@ -19,14 +19,14 @@ public class AmsatTlmClient {
 	private static final byte[] OK = { 0x4F, 0x4D, 0x0D, 0x0A };
 	private static final byte[] FAIL = { 0x46, 0x41, 0x0D, 0x0A };
 
-	private static String DEMODULATOR;
+	private static String demodulator;
 
 	static {
 		String version = readVersion();
 		if (version == null) {
 			version = "1.0";
 		}
-		DEMODULATOR = "amsatTlmClient/" + version + " (dernasherbrezon)";
+		demodulator = "amsatTlmClient/" + version + " (dernasherbrezon)";
 	}
 
 	private final List<ServerConnection> servers = new ArrayList<>();
@@ -78,7 +78,7 @@ public class AmsatTlmClient {
 		header.append("Date: ").append(formatDate(frame.getTime())).append("\r\n");
 		header.append("Receiver: ").append(formatCallsign(frame.getCallsign())).append("\r\n");
 		header.append("Rx-Location: ").append(formatLatitude(frame.getLatitude())).append(" ").append(formatLongitude(frame.getLongitude())).append(" 0\r\n");
-		header.append("Demodulator: ").append(DEMODULATOR).append("\r\n");
+		header.append("Demodulator: ").append(demodulator).append("\r\n");
 		header.append("\r\n");
 
 		byte[] headerBytes = header.toString().getBytes(StandardCharsets.ISO_8859_1);
