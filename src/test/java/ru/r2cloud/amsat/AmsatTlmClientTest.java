@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,8 +13,12 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AmsatTlmClientTest {
+
+	private static final Logger LOG = LoggerFactory.getLogger(AmsatTlmClientTest.class);
 
 	private static final byte[] FAIL = new byte[] { 0x46, 0x41, 0x0D, 0x0A };
 	private static final byte[] OK = new byte[] { 0x4F, 0x4D, 0x0D, 0x0A };
@@ -61,13 +66,7 @@ public class AmsatTlmClientTest {
 		client.send(request);
 
 		assertArrayEquals(new byte[5272], handler.getBody());
-		String expectedHeaders = "Sequence: 2\n" + 
-				"Source: amsat.fox-1c.ihu.highspeed\n" + 
-				"Length: 42176\n" + 
-				"Date: Wed, 20 May 2020 08:25:02\n" + 
-				"Receiver: M7RED\n" + 
-				"Rx-Location: N 53.72 E 47.57 0\n" + 
-				"Demodulator: amsatTlmClient/test-1.0 (dernasherbrezon)";
+		String expectedHeaders = "Sequence: 2\n" + "Source: amsat.fox-1c.ihu.highspeed\n" + "Length: 42176\n" + "Date: Wed, 20 May 2020 08:25:02\n" + "Receiver: M7RED\n" + "Rx-Location: N 53.72 E 47.57 0\n" + "Demodulator: amsatTlmClient/test-1.0 (dernasherbrezon)";
 		assertEquals(expectedHeaders, handler.getHeaders());
 	}
 
@@ -82,13 +81,7 @@ public class AmsatTlmClientTest {
 		client.send(request);
 
 		assertArrayEquals(new byte[572], handler.getBody());
-		String expectedHeaders = "Sequence: 2\n" + 
-				"Source: amsat.fox-1c.ihu.bpsk\n" + 
-				"Length: 4576\n" + 
-				"Date: Wed, 20 May 2020 08:25:02\n" + 
-				"Receiver: NONE\n" + 
-				"Rx-Location: N 53.72 E 47.57 0\n" + 
-				"Demodulator: amsatTlmClient/test-1.0 (dernasherbrezon)";
+		String expectedHeaders = "Sequence: 2\n" + "Source: amsat.fox-1c.ihu.bpsk\n" + "Length: 4576\n" + "Date: Wed, 20 May 2020 08:25:02\n" + "Receiver: NONE\n" + "Rx-Location: N 53.72 E 47.57 0\n" + "Demodulator: amsatTlmClient/test-1.0 (dernasherbrezon)";
 		assertEquals(expectedHeaders, handler.getHeaders());
 	}
 
@@ -100,13 +93,7 @@ public class AmsatTlmClientTest {
 		client.send(createValidRequest());
 
 		assertArrayEquals(new byte[96], handler.getBody());
-		String expectedHeaders = "Sequence: 2\n" + 
-				"Source: amsat.fox-1c.ihu.duv\n" + 
-				"Length: 768\n" + 
-				"Date: Wed, 20 May 2020 08:25:02\n" + 
-				"Receiver: M7RED\n" + 
-				"Rx-Location: N 53.72 E 47.57 0\n" + 
-				"Demodulator: amsatTlmClient/test-1.0 (dernasherbrezon)";
+		String expectedHeaders = "Sequence: 2\n" + "Source: amsat.fox-1c.ihu.duv\n" + "Length: 768\n" + "Date: Wed, 20 May 2020 08:25:02\n" + "Receiver: M7RED\n" + "Rx-Location: N 53.72 E 47.57 0\n" + "Demodulator: amsatTlmClient/test-1.0 (dernasherbrezon)";
 		assertEquals(expectedHeaders, handler.getHeaders());
 	}
 
@@ -124,11 +111,19 @@ public class AmsatTlmClientTest {
 
 	@Before
 	public void start() throws IOException {
-		int port = 8001;
-		server = new TlmServerMock(port);
-		server.start();
 		List<InetSocketAddress> address = new ArrayList<>();
-		address.add(new InetSocketAddress("127.0.0.1", port));
+		for (int i = 0; i < 10; i++) {
+			int port = 8000 + i;
+			server = new TlmServerMock(port);
+			try {
+				server.start();
+			} catch (BindException e) {
+				LOG.info("port: {} taken. trying new", port);
+				continue;
+			}
+			address.add(new InetSocketAddress("127.0.0.1", port));
+			break;
+		}
 		client = new AmsatTlmClient(address, 10000);
 	}
 
