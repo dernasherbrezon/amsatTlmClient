@@ -163,10 +163,9 @@ public class AmsatTlmClient {
 	}
 
 	private static String readVersion() {
-		try {
-			Properties p = new Properties();
-			InputStream is = AmsatTlmClient.class.getClassLoader().getResourceAsStream("/META-INF/maven/ru.r2cloud/amsatTlmClient/pom.properties");
+		try (InputStream is = AmsatTlmClient.class.getClassLoader().getResourceAsStream("META-INF/maven/ru.r2cloud/amsatTlmClient/pom.properties")) {
 			if (is != null) {
+				Properties p = new Properties();
 				p.load(is);
 				return p.getProperty("version", null);
 			}
