@@ -1,4 +1,4 @@
-# About [![Build Status](https://travis-ci.org/dernasherbrezon/amsatTlmClient.svg?branch=master)](https://travis-ci.org/dernasherbrezon/amsatTlmClient) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ru.r2cloud%3AamsatTlmClient&metric=alert_status)](https://sonarcloud.io/dashboard?id=ru.r2cloud%3AamsatTlmClient)
+# About [![Build Status](https://travis-ci.com/dernasherbrezon/amsatTlmClient.svg?branch=master)](https://travis-ci.com/dernasherbrezon/amsatTlmClient) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ru.r2cloud%3AamsatTlmClient&metric=alert_status)](https://sonarcloud.io/dashboard?id=ru.r2cloud%3AamsatTlmClient)
 
 Java client for sending telemetry data to AMSAT.
 
